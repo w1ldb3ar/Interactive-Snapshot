@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> Εργασία Εξεταστικής Β Εξαμήνου </title>
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+ </head>
+<style>
+
+body,html{
+	height:100%;
+}
+
+body{
+	background-color:lightgreen;
+}
+
+div.tree{
+	width:270px;
+	background-color:white;
+	padding:20px 20px 40px 20px;
+	box-shadow: 15px 15px 8px 0px grey;
+	border:1px solid black;
+	
+}
+div.tree{
+	position:relative;
+	 top: 25%;
+	 left: 50%;
+}
+
+.pin{
+	position:absolute;
+}
+
+</style>
+ <body>
+  
+	<div class="tree" onclick="rotate(event)">
+		<img src="tree.jpg" width="270px" height="200px">
+		<p>ELIO KAI GIANNHS</p>
+	</div>
+
+	<script>
+		// Προσθήκη αναγνώρισης κλικ σε ολόκληρο το έγγραφο
+		document.addEventListener('click', function(event) {
+		  var x = event.clientX; // Συντεταγμένη του X στο κλικ
+		  var y = event.clientY; // Συντεταγμένη του Y στο κλικ
+		  
+		  var pinImage=document.querySelector(".pin");
+		  if (pinImage) {
+				pinImage.remove(); // Αφαίρεση της εικόνας pin αν υπάρχει ήδη
+		  }
+
+		  // Δημιουργία νέας εικόνας pin
+		  pinImage = document.createElement('img');
+		  pinImage.className='pin';
+		  pinImage.src = 'pin.png';
+		  pinImage.style.width = "60px"; 
+		  pinImage.style.position = 'absolute';
+		  pinImage.style.left = (x - 55) + 'px'; // Θέση της εικόνας pin στον άξονα X
+		  pinImage.style.top = (y - 82) + 'px'; // Θέση της εικόνας pin στον άξονα Y
+		  
+		  document.body.appendChild(pinImage);
+		})
+	</script>
+
+<script>
+	// Η rotate που εκτελείται όταν γίνεται κλικ στην Polaroid
+	function rotate(event) {
+	  var polaroid = document.querySelector(".tree"); // Επιλογή του στοιχείου με κλάση "tree" (η Polaroid)
+	  var polaroidRect = polaroid.getBoundingClientRect(); //Ανάκτηση των συντεταγμένων και διαστάσεων της Polaroid
+  
+	  var clickX = event.clientX - polaroidRect.left; // X συντεταγμένη του κλικ μέσα στην Polaroid
+	  var clickY = event.clientY - polaroidRect.top; // Y συντεταγμένη του κλικ μέσα στην Polaroid
+  
+	  var originX = (clickX / polaroidRect.width) * 100 + "%"; // Υπολογισμός του σημείου περιστροφής X σε ποσοστό του πλάτους
+	  var originY = (clickY / polaroidRect.height) * 100 + "%"; // Υπολογισμός του σημείου περιστροφής Y σε ποσοστό του ύψους
+		
+	  // Ορισμός του σημείου περιστροφής της Polaroid
+	  polaroid.style.transformOrigin = originX + " " + originY;
+
+	   //Το animation της tree όταν πατηθεί
+	  polaroid.animate(
+		[
+			{transform:"rotate(0deg)"},
+			{transform:"rotate(360deg)"}
+		],
+		{
+			duration:1000, // Διάρκεια σε milliseconds
+			iterations: 1, // Αριθμός επαναλήψεων
+      		fill: "forwards", // Κρατάει την τελική κατάσταση του animation
+      		easing: "linear" // Τρόπος μετάβασης (π.χ. linear, ease-in, ease-out)
+		}
+	  );
+	}
+  </script>
+
+ </body>
+</html>
